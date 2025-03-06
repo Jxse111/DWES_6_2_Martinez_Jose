@@ -32,11 +32,11 @@
 
         try {
             // Llamar a la función para convertir de Fahrenheit a Celsius
-            $cambioCelsiusFahrenheit = $servicioCambioTemperatura->FahrenheitToCelsius($parametros);
+            $cambioFahrenheitCelsius = $servicioCambioTemperatura->FahrenheitToCelsius($parametros);
 
             // Mostrar los resultados
             echo nl2br("Parámetro de entrada: " . $parametros["Fahrenheit"] . " ºF.\n");
-            echo nl2br("Resultado de la conversión: " . $cambioCelsiusFahrenheit->FahrenheitToCelsiusResult . " ºC.\n");
+            echo nl2br("Resultado de la conversión: " . $cambioFahrenheitCelsius->FahrenheitToCelsiusResult . " ºC.\n");
         } catch (SoapFault $error) {
             echo "ERROR: " . $error->faultcode . ", " . $error->faultstring;
         }
