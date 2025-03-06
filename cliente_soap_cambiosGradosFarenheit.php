@@ -5,32 +5,41 @@
         <title>Conversión de Temperatura</title>
     </head>
     <body>
-        <h1>Cambio de Celsius a Fahrenheit</h2>
+        <h1>Cambio de Celsius a Fahrenheit</h1>
 
         <?php
-        $uri = "http://www.w3schools.com/xml/tempconvert.asmx?WSDL";
-        $servicioCambioTemperatura = new SoapClient($uri);
-
         // Grados Celsius a convertir
-        $gradosCelsius = 17;
+        $parametros = ["Celsius" => 17];
 
-        // Llamada al método del servicio SOAP
-        $cambioCelsiusFahrenheit = $servicioCambioTemperatura->CelsiusToFahrenheit(array("Celsius" => $gradosCelsius));
+        // Crear el cliente SOAP con el WSDL
+        try {
+            $servicioCambioTemperatura = new SoapClient("http://www.w3schools.com/xml/tempconvert.asmx?WSDL");
 
-        // Mostramos el resultado
-        echo "El cambio de Celsius a Fahrenheit es de " . $cambioCelsiusFahrenheit->CelsiusToFahrenheitResult . " ºF";
+            // Llamar a la función para convertir de Celsius a Fahrenheit
+            $cambioCelsiusFahrenheit = $servicioCambioTemperatura->CelsiusToFahrenheit($parametros);
+
+            // Mostrar los resultados
+            echo nl2br("Parámetro de entrada: " . $parametros["Celsius"] . " ºC.\n");
+            echo nl2br("Resultado de la conversión: " . $cambioCelsiusFahrenheit->CelsiusToFahrenheitResult . " ºF.\n");
+        } catch (SoapFault $error) {
+            echo "ERROR: " . $error->faultcode . ", " . $error->faultstring;
+        }
         ?>
-        </br> 
         <h2>Cambio de Fahrenheit a Celsius</h2>
         <?php
         // Grados Fahrenheit a convertir
-        $gradosFarenheit = 62.2;
+        $parametros = ["Fahrenheit" => 62.2];
 
-        // Llamada al método del servicio SOAP
-        $cambioFahrenheitCelsius = $servicioCambioTemperatura->FahrenheitToCelsius(array("Fahrenheit" => $gradosFarenheit));
+        try {
+            // Llamar a la función para convertir de Fahrenheit a Celsius
+            $cambioCelsiusFahrenheit = $servicioCambioTemperatura->FahrenheitToCelsius($parametros);
 
-        // Mostramos el resultado
-        echo "El cambio de Fahrenheit a Celsius es de " . $servicioCambioTemperatura->FahrenheitToCelsiusResult . " ºC";
+            // Mostrar los resultados
+            echo nl2br("Parámetro de entrada: " . $parametros["Fahrenheit"] . " ºF.\n");
+            echo nl2br("Resultado de la conversión: " . $cambioCelsiusFahrenheit->FahrenheitToCelsiusResult . " ºC.\n");
+        } catch (SoapFault $error) {
+            echo "ERROR: " . $error->faultcode . ", " . $error->faultstring;
+        }
         ?>
-</body>
+    </body>
 </html>
